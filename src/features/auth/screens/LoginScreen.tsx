@@ -15,7 +15,6 @@ const LoginScreen = () => {
   const [username, setUsername] = useState('0962591400');
   const [password, setPassword] = useState('123@123aA');
   
-  const { isAuthenticated, logout, token } = useAuthStore();
   const loginMutation = useLoginMutation();
 
   const handleLogin = () => {
@@ -23,26 +22,12 @@ const LoginScreen = () => {
         Alert.alert("Lỗi", "Vui lòng nhập tài khoản mật khẩu");
         return;
     }
-    
+
     loginMutation.mutate({
       username,
       password,
     });
   };
-
-  if (isAuthenticated) {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.title}>Xin chào!</Text>
-        <Text style={styles.subText}>Bạn đã đăng nhập thành công.</Text>
-        <Text style={styles.tokenText}>Token: {token?.slice(0, 20)}...</Text>
-        
-        <TouchableOpacity style={styles.buttonLogout} onPress={logout}>
-          <Text style={styles.buttonText}>Đăng xuất</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
 
   return (
     <View style={styles.container}>
@@ -51,15 +36,21 @@ const LoginScreen = () => {
       <TextInput
         style={styles.input}
         placeholder="Số điện thoại"
+        placeholderTextColor="#999"
         value={username}
         onChangeText={setUsername}
+        keyboardType="phone-pad"
+        autoCapitalize="none"
       />
+      
       <TextInput
         style={styles.input}
         placeholder="Mật khẩu"
+        placeholderTextColor="#999"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
+        autoCapitalize="none"
       />
 
       <TouchableOpacity 
@@ -116,6 +107,9 @@ const styles = StyleSheet.create({
       marginBottom: 15,
       borderWidth: 1,
       borderColor: '#ddd',
+      fontSize: 16,
+      color: '#333',
+      minHeight: 50,
     },
     button: {
       backgroundColor: '#007AFF',
